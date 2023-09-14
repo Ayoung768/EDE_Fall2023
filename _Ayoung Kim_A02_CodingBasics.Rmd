@@ -99,6 +99,8 @@ names(df)<-"Test Scores of Students"
 names(df_student_name)<-"Student"
 names(df_test_score)<-"Score"
 names(df_pass)<-"Pass"
+df
+
 ```
 
 9.  QUESTION: How is this data frame different from a matrix?
