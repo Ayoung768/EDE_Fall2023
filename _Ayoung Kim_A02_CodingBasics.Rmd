@@ -1,6 +1,6 @@
 ---
 title: "Assignment 2: Coding Basics"
-author: "Student Name"
+author: "Ayoung Kim"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -31,11 +31,19 @@ This exercise accompanies the lessons in Environmental Data Analytics on coding 
 4.  Insert comments in your code to describe what you are doing.
 
 ```{r basics 1}
-#1. 
+#1. Sequence 1 (I defined seq(1,30.3) as sequence 1)
+seq(1,30,3)
+sequence1<-seq(1,30,3)
 
-#2. 
 
-#3. 
+#2. Mean and Median (I got mean and median of Sequence 1 that I defined above)
+
+mean(sequence1)
+median(sequence1)
+
+#3. Mean > Median ? (I got 14.5 for both mean and median)
+14.5>14.5
+
 
 ```
 
@@ -50,21 +58,91 @@ This exercise accompanies the lessons in Environmental Data Analytics on coding 
 8.  Label the columns of your data frame with informative titles.
 
 ```{r basics 2}
+#test score
 
+#Name of Student
+student = c("Anne","Marie","Jack","Wilson")
+
+#Test score
+testscore = c(45,70,80,90)
+
+#Pass or Fail
+pass<-(testscore>50)
+
+#Test score/student name/pass
+test_score<-testscore
+student_name <-student
+pass<-pass
+
+#Data frame for Test Score
+class(test_score)
+df_test_score <- as.data.frame(test_score)
+df_test_score
+
+#Data frame for Student Names
+class(student_name)
+df_student_name <-as.data.frame(student_name)
+df_student_name
+
+#Data frame for 'Pass or Fail'
+class(pass)
+df_pass <-as.data.frame(pass)
+df_pass
+
+#Adding Columns 
+df<-cbind(df_student_name,df_test_score,df_pass)
+class(df)
+df
+names(df)<-"Test Scores of Students"
+
+#Name
+names(df_student_name)<-"Student"
+names(df_test_score)<-"Score"
+names(df_pass)<-"Pass"
 ```
 
 9.  QUESTION: How is this data frame different from a matrix?
 
-> Answer:
+> Answer:#Answer: with a data frame, I can combine data sets and show in a one chart.
 
 10. Create a function with an if/else statement. Your function should take a **vector** of test scores and print (not return) whether a given test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement. 
 
+#Function for Marie, Jack, and Wilson
+df_test_score<-x
+if(x>50){
+  "Pass"
+}
+#Function for Anne
+df_test_score<-x
+if(x<50){
+  'fail'
+}
 11. Apply your function to the vector with test scores that you created in number 5.
 
 ```{r basics 3}
+#Test score for Anne
+df_test_score <-45
+if (df_test_score<50){
+  'Fail'
+}
 
+#Test score for Marie
+df_test_score<-70
+if(df_test_score>50){
+  'pass'
+}
+#Test score for Jack
+df_test_score <-80
+if(df_test_score>50){
+  'pass'
+}
+#Test score for Wilson
+df_test_score<-90
+if(df_test_score>50){
+  'pass'
+}
 ```
 
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
 
-> Answer:
+> Answer:The 'if' option worked for me. I used different function for Anne's score.I put x<50 for Anne's score and x>50 for the scores of Marie, Jack, and Wilson.I thought, for Anne's score, the combination of 'if' and 'else' would work, but it didn't. so I decided to put x<50 for Anne's case. 

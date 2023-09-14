@@ -45,6 +45,8 @@ median(sequence1)
 
 
 ## Basics, Part 2
+```
+
 
 5.  Create a series of vectors, each with four components, consisting of (a) names of students, (b) test scores out of a total 100 points, and (c) whether or not they have passed the test (TRUE or FALSE) with a passing grade of 50.
 
@@ -97,14 +99,21 @@ names(df)<-"Test Scores of Students"
 names(df_student_name)<-"Student"
 names(df_test_score)<-"Score"
 names(df_pass)<-"Pass"
-
-
+```
 9.  QUESTION: How is this data frame different from a matrix?
 
-#Answer: with a data frame, I can combine data sets and show in a one chart. 
+```{r basics 2}
+#Answer: with a data frame, I can combine data sets and show in a one chart.
+```
 
-10. Create a function with an if/else statement. Your function should take a **vector** of test scores and print (not return) whether a given test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement. 
 
+```{r basics 2}
+```
+
+10. Create a function with an if/else statement. Your function should take a **vector** of test scores and print (not return) whether a given test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement.
+
+
+```{r basics 2}
 #Function for Marie, Jack, and Wilson
 df_test_score<-x
 if(x>50){
@@ -115,9 +124,12 @@ df_test_score<-x
 if(x<50){
   'fail'
 }
+```
+
 
 
 11. Apply your function to the vector with test scores that you created in number 5.
+```
 
 ```{r basics 3}
 #Test score for Anne
