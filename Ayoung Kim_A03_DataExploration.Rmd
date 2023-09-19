@@ -73,13 +73,27 @@ View(NEON_NIWO_Litter_massdata_2018_08_raw)
 5.  What are the dimensions of the dataset?
 
 ```{r}
+#Dimenstions of Neonics 
+View(Neonics)
+colnames(Neonics)
+class(Neonics)
+str(Neonics)
+dim(Neonics)
+
+#Dimensions of Litter
+View(Litter)
+colnames(Litter)
+class(Litter)
+str(Litter)
+dim(Litter)
 
 ```
 
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
 ```{r}
-
+summary(Neonics)
+summary(Litter)
 ```
 
 > Answer:
