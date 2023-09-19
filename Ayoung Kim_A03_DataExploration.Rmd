@@ -35,16 +35,17 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 ```{r,  message = FALSE}
 #Install packages
 install.packages("tidyverse")
-library(tidyverse)
-
 install.packages("lubridate")
+
+library(tidyverse)
 library(lubridate)
 
+
 #Name datasets 
-Neonics<-read_csv("Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv")
+Neonics<-read_csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv")
 View(ECOTOX_Neonicotinoids_Insects_raw)
 
-Litter <-read_csv("Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2018-08_raw.csv")
+Litter <-read_csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2018-08_raw.csv")
 View(NEON_NIWO_Litter_massdata_2018_08_raw)
 
 #I intalled two pacakges, tidyverse and lubridate, and imported two datasets from the raw data folder.  
@@ -73,18 +74,10 @@ View(NEON_NIWO_Litter_massdata_2018_08_raw)
 5.  What are the dimensions of the dataset?
 
 ```{r}
-#Dimenstions of Neonics 
-View(Neonics)
-colnames(Neonics)
-class(Neonics)
-str(Neonics)
+#Dimension of Neonics (4623 Rows, 30 Columns)
 dim(Neonics)
 
-#Dimensions of Litter
-View(Litter)
-colnames(Litter)
-class(Litter)
-str(Litter)
+#Dimension of Litter(188 Rows, 19 Columns)
 dim(Litter)
 
 ```
