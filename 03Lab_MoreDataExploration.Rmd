@@ -94,25 +94,29 @@ Question: In the R chunk below, write "dataframe1\$". Press `tab` after you type
 Find a ten-day forecast of temperatures (Fahrenheit) for Durham, North Carolina. Create two vectors, one representing the high temperature on each of the ten days and one representing the low.
 
 ```{r DataExercise-1a}
-
+high_temp <-c(83,83,84,78,71,79,82,85,84,82)
+low_temp <-c(86,58,60,61,63,63,64,64,63,60)
 ```
+
 
 Now, create two additional vectors that include the ten-day forecast for the high and low temperatures in Celsius. Use a function to create the two new vectors from your existing ones in Fahrenheit.
 
 ```{r DataExercise-1b}
-
+high_temp_C <-(high_temp-32)*5/9
+low_temp_c <-(low_temp-32)*5/9
 ```
 
 Combine your four vectors into a data frame and add informative column names.
 
 ```{r DataExercise-1c}
-
+df.temp <-data.frame(high_temp,low_temp,high_temp_C,low_temp_c)
 ```
 
 Use the common functions `summary` and `sd` to obtain basic data summaries of the ten-day forecast. How would you call these functions differently for the entire data frame vs. a single column? Attempt to demonstrate both options below.
 
 ```{r DataExercise-1d}
-
+summary(df.temp)
+sd(df.temp$high_temp)
 ```
 
 ### Date objects
@@ -128,8 +132,14 @@ Remember formatting of dates in R:
 # (code must be uncommented)
 today <- Sys.Date()
 format(today, format = "%B")
+
 #format(today, format = "")
+str_today<-"2023-feb-7"
+date_obj_today <-mdy(str_today)
 #format(today, format = "")
+str_juneteenth <-"19 June 1865"
+date_juneteenth <-day(str_juneteenth)
+date_juneteenth
 #format(today, format = "")
 
 ```

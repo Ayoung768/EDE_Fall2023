@@ -17,6 +17,7 @@ editor_options:
 
 Today we will work with a dataset from the [North Temperate Lakes Long-Term Ecological Research Station](https://lter.limnology.wisc.edu/about/overview). The NTL-LTER is located in the boreal zone in northern Wisconsin, USA. We will use the [chemical and physical limnology dataset](https://lter.limnology.wisc.edu/content/cascade-project-north-temperate-lakes-lter-core-data-physical-and-chemical-limnology-1984), running from 1984-2016. 
 
+
 Opening discussion: why might we be interested in long-term observations of temperature, oxygen, and light in lakes?
 
 > Add notes here: 
