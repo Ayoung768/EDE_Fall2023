@@ -33,20 +33,23 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 1.  Check your working directory, load necessary packages (tidyverse, lubridate), and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. Be sure to include the subcommand to read strings in as factors.
 
 ```{r,  message = FALSE}
-#Install packages
+#Check working directory
+getwd()
+
+#Install packages 
 install.packages("tidyverse")
-install.packages("lubridate")
+install.packages("lubridate") 
 
 library(tidyverse)
 library(lubridate)
 
 
 #Name datasets 
-Neonics<-read_csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv")
-View(ECOTOX_Neonicotinoids_Insects_raw)
+Neonics <-read.csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",stringsAsFactors = TRUE)
+View(Neonics)
 
-Litter <-read_csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2018-08_raw.csv")
-View(NEON_NIWO_Litter_massdata_2018_08_raw)
+Litter <-read.csv("./Data/Raw/NIWO_Litter/NEON_NIWO_Litter_massdata_2018-08_raw.csv",stringsAsFactors = TRUE)
+View(Litter)
 
 #I intalled two pacakges, tidyverse and lubridate, and imported two datasets from the raw data folder.  
 ```
@@ -85,46 +88,57 @@ dim(Litter)
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
 ```{r}
-summary(Neonics)
-summary(Litter)
+#Most common effects studied 
+summary(Neonics$Effect)
+
 ```
 
-> Answer:
+> Answer:The most common effects that are studied is Population with 1803. Population would be of interest 
 
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
-```{r}
+```{r} 
+#The six most commonly studied species 
+summary(Neonics$Species.Common.Name)
 
-```
+            ```
+#Answer for 7: The most commonly studied species are Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carniolan Honey Bee, Bumble Bee, and Italian Honey Bee. 
 
-> Answer:
 
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric?
 
 ```{r}
-
+#The class of 'Con.1..Author' column
+class(Neonics$Conc.1..Author.)
 ```
 
-> Answer:
+> Answer: The class of 'Con.1..Author' is factor. That is because I imported the datasets into a dataframe.
 
 ## Explore your data graphically (Neonics)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
-```{r}
+```{r} 
+#Frequency Line Graph with Publication Year
 
+ggplot(Neonics)+
+  geom_freqpoly(aes(x=Publication.Year))
 ```
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 
 ```{r}
+#Frequency Line Graph with a color aesthetic 
+
+ggplot(Neonics)+
+  geom_freqpoly(aes(x=Test.Location))
 
 ```
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
 
-> Answer:
+> Answer: The most common test locations 
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
@@ -140,7 +154,12 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
-```{r}
+```{r} 
+#Determine the class of collectDate (Factor)
+class(Litter$collectDate)
+
+#Change to a date 
+
 
 ```
 

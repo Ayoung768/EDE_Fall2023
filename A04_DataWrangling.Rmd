@@ -31,7 +31,7 @@ The completed exercise is due on Thursday, Sept 28th @ 5:00pm.
 2. Apply the `glimpse()` function to reveal the dimensions, column names, and structure of each dataset. 
 
 ```{r setup, message = FALSE}
-#1a 
+#1a #Load "tidyverse', 'lubridate', and 'here' packages 
 install.packages("tidyverse")
 install.packages("lubridate")
 install.packages("here")
@@ -42,12 +42,41 @@ library(here)
 
 here()
 
-#1b 
+#1b Checking working directoy 
 getwd()
 
-#1c 
+#1c Read 4 datasets 
+#Ozone, NC, 2018 data 
+Ozone.NC.2018 <- read.csv(
+  file=here("./Data/Raw/EPAair_O3_NC2018_raw.csv"), 
+  stringsAsFactors = TRUE
+)
 
-#2 
+# Ozone, NC, 2019 data
+Ozone.NC.2019 <- read.csv(
+  file=here("./Data/Raw/EPAair_O3_NC2019_raw.csv"), 
+  stringsAsFactors = TRUE
+)
+
+#PM25, NC, 2018 data 
+PM25.NC.2018 <- read.csv(
+  file=here("./Data/Raw/EPAair_PM25_NC2018_raw.csv"), 
+  stringsAsFactors = TRUE
+)
+
+#PM25, NC, 2019 data
+PM25.NC.2019 <- read.csv(
+  file=here("./Data/Raw/EPAair_O3_NC2019_raw.csv"), 
+  stringsAsFactors = TRUE
+)
+
+
+#2 Identify the dimensions, column names, and structure of each dataset
+glimpse(Ozone.NC.2018)
+glimpse(Ozone.NC.2019)
+glimpse(PM25.NC.2018)
+glimpse(PM25.NC.2019)
+
 
 ```
 
@@ -63,11 +92,42 @@ getwd()
 6. Save all four processed datasets in the Processed folder. Use the same file names as the raw files but replace "raw" with "processed".
 
 ```{r}
-#3
+#3 Change the Date columns to date object
+# Ozone,NC, 2018
+class(Ozone.NC.2018$Date)
+Ozone.NC.2018$Date<-as.Date(Ozone.NC.2018$Date,format="%M-%d-%Y")
+class(Ozone.NC.2018$Date)
 
-#4
+# Ozone, NC, 2019
+Ozone.NC.2019$Date<-as.Date(Ozone.NC.2019$Date,format="%M-%d-%Y")
+class(Ozone.NC.2019$Date)
 
-#5
+#PM25, NC, 2018
+PM25.NC.2018$Date<-as.Date(PM25.NC.2018$Date,format="%M-%d-%Y")
+class(PM25.NC.2018$Date)
+
+#PM25, NC, 2019
+PM25.NC.2019$Date<-as.Date(PM25.NC.2019$Date,format="%M-%d-%Y")
+class(PM25.NC.2019$Date)
+
+
+#4 Select specific columns (Used "select" function to select specific columns)
+
+#Ozone, NC, 2018 
+Ozone.NC.2018<-select(Ozone.NC.2018,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
+
+#Ozone, NC, 2019
+Ozone.NC.2019<-select(Ozone.NC.2019,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
+
+#PM25, NC, 2018 
+PM25.NC.2018<-select(PM25.NC.2018,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
+
+#PM25, NC, 2019
+PM25.NC.2019<-select(PM25.NC.2019,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
+
+#5 Mutate (Used 'mutate' function to fill all cells in AQS_PARAMETER_DESC column to "PM 2.5"
+PM25.NC.2018<-PM25.NC.2018 %>%
+  mutate(AQS_PARAMETER_DESC="PM 2.5")
 
 #6
 
