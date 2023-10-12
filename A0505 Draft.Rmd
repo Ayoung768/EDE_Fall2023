@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5: Data Visualization"
-author: "Student Name"
+author: "Ayoung Kim"
 date: "Fall 2023"
 output: pdf_document
 geometry: margin=2.54cm
@@ -31,10 +31,36 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Vi
 2. Make sure R is reading dates as date format; if not change the format to date.
 
 ```{r initialize project}
-#1 
+#1 Loading the tidyvers, lubridate, here & cowplot 
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("here")
+install.packages("cowplot")
 
-#2 
+library(tidyverse)
+library(lubridate)
+library(here)
+library(cowplot)
 
+# Verify my home directory 
+getwd()
+
+#Reading datasets 
+nutrients_chem<-read.csv("./NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
+neon_litter<-read.csv("./NEON_NIWO_Litter_mass_trap_Processed.csv")
+
+#2 Change the "sampledate" to date format 
+
+#Nutrients and chemistry/physics for Peter and Paul Lakes
+class(nutrients_chem$sampledate)
+nutrients_chem$sampledate <- as.Date(nutrients_chem$sampledate,format = "%Y-%m-%d")
+class(nutrients_chem$sampledate)
+
+# Niwot Ridge litter dataset
+#Question: when should I use as.Date and ymd?
+class(neon_litter$collectDate)
+neon_litter$collectDate<-as.Date(neon_litter$collectDate,format = "%Y-%m-%d")
+class(neon_litter$collectDate)
 ```
 ## Define your theme
 3. Build a theme and set it as your default theme. Customize the look of at least two of the following: 
@@ -45,20 +71,41 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Vi
  * Legend
 
 ```{r build plot theme}
-#3
+#3 Defining my theme by customizing plot title and legend
+mytheme<-theme_classic(base_size = 13) +
+  theme(
+        legend.background = element_rect(color='grey',fill = 'beige'),
+        legend.title = element_text(color='orange'),
+    plot.title = element_text(color="black",size = 15),
+        legend.position = "right",
+    legend.text = element_text(size=11))
 
-```
+
+# I deined my them as "mytheme" and customized the legend background & title&position and text size. Also, I assigend the color and size of plot title. 
 
 ## Create graphs
-For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best practices for data visualization. Ensure your theme, color palettes, axes, and additional aesthetics are edited accordingly.
 
+#For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best practices for data visualization. Ensure your theme, color palettes, axes, and additional aesthetics are edited accordingly.
+```
 4. [NTL-LTER] Plot total phosphorus (`tp_ug`) by phosphate (`po4`), with separate aesthetics for Peter and Paul lakes. Add a line of best fit and color it black. Adjust your axes to hide extreme values (hint: change the limits using `xlim()` and/or `ylim()`).
 
-```{r plot total P vs PO4}
-#4 
+```{r build plot theme}
 
+#4 Making a plot and adjust my axes get rid of extreme values 
+#I used po4 for x value and tp_ug for y value. I make seperated aesthetics for Peter and Paul lakes by using "color=lakename". I figured out the extreme values before using xlim, and found the extreme value for x. After getting a plot, I adjusted to hide extreme values with xlim() function. 
+
+ntl_plot<-ggplot(nutrients_chem,aes(x=po4, y=tp_ug,color=lakename))+
+  geom_point()+
+  geom_smooth(method = lm, formula = y ~ x, color = 'black')+
+  mytheme+
+  xlim(0,50)
+print(ntl_plot)
+
+#question: the black line -->okay? 
 ```
 
+
+```
 
 5. [NTL-LTER] Make three separate boxplots of (a) temperature, (b) TP, and (c) TN, with month as the x axis and lake as a color aesthetic. Then, create a cowplot that combines the three graphs. Make sure that only one legend is present and that graph axes are aligned. 
 
@@ -66,8 +113,17 @@ Tip:
 * Recall the discussion on factors in the previous section as it may be helpful here. 
 * R has a built-in variable called `month.abb` that returns a list of months;see <https://r-lang.com/month-abb-in-r-with-example>
 
-```{r Create boxplots}
-#5 
+
+
+```{r}
+#5 making boxplot and cowplot 
+
+```
+
+Nutrientplot3 <-
+  ggplot(PeterPaul.chem.nutrients.gathered, aes(x = lakename, y = concentration)) +
+  geom_boxplot(aes(color = nutrient)) # Why didn't we use "fill"?
+print(Nutrientplot3)
 
 ```
 

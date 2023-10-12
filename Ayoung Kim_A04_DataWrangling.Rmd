@@ -42,7 +42,7 @@ library(here)
 
 here()
 
-#1b Checking working directoy 
+#1b Checking working directory 
 getwd()
 
 #1c Read 4 datasets 
@@ -58,26 +58,25 @@ Ozone.NC.2019 <- read.csv(
   stringsAsFactors = TRUE
 )
 
-#PM25, NC, 2018 data 
+#PM2.5, NC, 2018 data 
 PM25.NC.2018 <- read.csv(
   file=here("./Data/Raw/EPAair_PM25_NC2018_raw.csv"), 
   stringsAsFactors = TRUE
 )
 
-#PM25, NC, 2019 data
+#PM2.5, NC, 2019 data
 PM25.NC.2019 <- read.csv(
   file=here("./Data/Raw/EPAair_O3_NC2019_raw.csv"), 
   stringsAsFactors = TRUE
 )
 
 
-#2 Identify the dimensions, column names, and structure of each dataset
+#2 Using glimpse function to figure out the information for each of the dataset 
+
 glimpse(Ozone.NC.2018)
 glimpse(Ozone.NC.2019)
 glimpse(PM25.NC.2018)
 glimpse(PM25.NC.2019)
-
-
 ```
 
 
@@ -92,22 +91,22 @@ glimpse(PM25.NC.2019)
 6. Save all four processed datasets in the Processed folder. Use the same file names as the raw files but replace "raw" with "processed".
 
 ```{r}
-#3 Change the Date columns to date object
+#3 Change the Date columns to date object (I used lubridate to change the date columns to date object)
+
 # Ozone,NC, 2018
-class(Ozone.NC.2018$Date)
-Ozone.NC.2018$Date<-as.Date(Ozone.NC.2018$Date,format="%M-%d-%Y")
+Ozone.NC.2018$Date <-mdy(Ozone.NC.2018$Date)
 class(Ozone.NC.2018$Date)
 
 # Ozone, NC, 2019
-Ozone.NC.2019$Date<-as.Date(Ozone.NC.2019$Date,format="%M-%d-%Y")
+Ozone.NC.2019$Date<-mdy(Ozone.NC.2019$Date)
 class(Ozone.NC.2019$Date)
 
-#PM25, NC, 2018
-PM25.NC.2018$Date<-as.Date(PM25.NC.2018$Date,format="%M-%d-%Y")
+#PM2.5, NC, 2018
+PM25.NC.2018$Date<-mdy(PM25.NC.2018$Date)
 class(PM25.NC.2018$Date)
 
-#PM25, NC, 2019
-PM25.NC.2019$Date<-as.Date(PM25.NC.2019$Date,format="%M-%d-%Y")
+#PM2.5, NC, 2019
+PM25.NC.2019$Date<-mdy(PM25.NC.2019$Date)
 class(PM25.NC.2019$Date)
 
 
@@ -119,17 +118,37 @@ Ozone.NC.2018<-select(Ozone.NC.2018,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER
 #Ozone, NC, 2019
 Ozone.NC.2019<-select(Ozone.NC.2019,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
 
-#PM25, NC, 2018 
+#PM2.5, NC, 2018 
 PM25.NC.2018<-select(PM25.NC.2018,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
 
-#PM25, NC, 2019
+#PM2.5, NC, 2019
 PM25.NC.2019<-select(PM25.NC.2019,Date,DAILY_AQI_VALUE,Site.Name,AQS_PARAMETER_DESC,COUNTY,SITE_LATITUDE,SITE_LONGITUDE)
 
-#5 Mutate (Used 'mutate' function to fill all cells in AQS_PARAMETER_DESC column to "PM 2.5"
+#5 Mutate 
+#(Used 'mutate' function to fill all cells in AQS_PARAMETER_DESC column to "PM 2.5")
+#PM2.5,NC,2018 
 PM25.NC.2018<-PM25.NC.2018 %>%
   mutate(AQS_PARAMETER_DESC="PM 2.5")
 
-#6
+#PM2.5,NC,2019
+PM25.NC.2019<-PM25.NC.2019 %>%
+  mutate(AQS_PARAMETER_DESC="PM 2.5")
+
+#6 Saving processed datasets to 'Processed' file
+#Ozone,NC,18
+write.csv(Ozone.NC.2018, row.names = FALSE, file = "./Data/Processed/EPAair_O3_NC2018_processed.csv")
+
+#Ozone,NC,19
+write.csv(Ozone.NC.2019, row.names = FALSE, file = "./Data/Processed/EPAair_O3_NC2019_processed.csv")
+
+#PM 2.5,NC,2018
+write.csv(PM25.NC.2018, row.names = FALSE, file = "./Data/Processed/EPAair_PM25_NC2018_processed.csv")
+
+#PM 2.5,NC,2019
+write.csv(PM25.NC.2019, row.names = FALSE, file = "./Data/Processed/EPAair_PM25_NC2019_processed.csv")
+
+
+
 
 ```
 
@@ -155,15 +174,37 @@ PM25.NC.2018<-PM25.NC.2018 %>%
 11. Save your processed dataset with the following file name: "EPAair_O3_PM25_NC1819_Processed.csv"
 
 ```{r}
-#7 
+#7 Combine four datasets with 'rbind' function
+rbind.Ozone.NC.PM25 <- rbind(Ozone.NC.2018,Ozone.NC.2019,PM25.NC.2018,PM25.NC.2019)
 
-#8 
 
-#9
+#8 Wrangle my new dataset
+#I included only sites that the four data frames have in common.
+#I found the mean of the AQI value, latitude, and longitude. 
+#I grouped by date, site name, AQS parameter, and county, and add columns for "Month" and Year" using 
+#Date column.
+  
+Ozone.NC.PM25.all<-
+  rbind.Ozone.NC.PM25 %>%
+  filter(Site.Name %in% c("Linville Falls","Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School"))%>%
+  group_by(Date,Site.Name,AQS_PARAMETER_DESC,COUNTY) %>%
+  summarise(AQImean = mean(DAILY_AQI_VALUE),
+            Lat.mean = mean(SITE_LATITUDE),
+            Long.mean = mean(SITE_LONGITUDE))%>%
+  mutate(Month = month(Date), Year=year(Date))
+  
 
-#10
 
-#11
+#9 Spreading my datasets
+#I used pivot_wider to spread my datasets to make AQI values for ozone and PM2.5 are 
+#in separate columns.
+Ozone.NC.PM25.AQI<-pivot_wider(Ozone.NC.PM25.all,names_from = AQS_PARAMETER_DESC, values_from = AQImean )
+
+#10 Dimensions of my new dataset (I used dim function)
+dim(Ozone.NC.PM25.AQI)
+
+#11 Saving the processed dataset
+write.csv(Ozone.NC.PM25.AQI, row.names = FALSE, file = "./Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
 
 ```
 
@@ -176,14 +217,26 @@ PM25.NC.2018<-PM25.NC.2018 %>%
 
 ```{r}
 
-#12
+#12 Summary Data Frame 
+# I grouped by site, month, and year.
+#Also, I generated the mean AQI values for ozone and PM.2.5 then 
+#removed the ozone values with NA. 
+
+Ozone.NC.PM25.AQI.summary<-
+  Ozone.NC.PM25.AQI %>%
+  group_by(Site.Name,Month,Year) %>%
+  summarise(meanozone=mean(Ozone),
+            meanPM25=mean('PM2.5'))%>%
+  drop_na(meanozone)
+ 
 
 
-#13
-
+#13 Dimension of Ozone.NC.PM25.AQI.Summary 
+# I used dim to get dimension of the new dataset
+dim(Ozone.NC.PM25.AQI.summary)
 
 ```
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
 
-> Answer: 
+> Answer: We used drop_na because it is useful to remove only rows where meanozone is NA. When I tried with na.omit, I found that all data has been missing. 
